@@ -35,6 +35,7 @@ sealed class DuckDBRandomMethodsTranslator(ISqlExpressionFactory sqlExpressionFa
                 // Random.Next() -> random()
                 return sqlExpressionFactory.Function("random", Array.Empty<SqlExpression>(), true, Array.Empty<bool>(), method.ReturnType);
             }
+            
             case 1:
             {
                 // Random.Next(maxValue:100) -> cast(random() * 100 as int) 
@@ -45,6 +46,7 @@ sealed class DuckDBRandomMethodsTranslator(ISqlExpressionFactory sqlExpressionFa
                                                                             null),
                                                     typeof(int));
             }
+            
             case 2:
             {
                 // Random.Next(minValue:10, maxValue:100) -> cast(10 + random() * (100-10) as int);
@@ -67,6 +69,7 @@ sealed class DuckDBRandomMethodsTranslator(ISqlExpressionFactory sqlExpressionFa
                                                                             null),
                                                     typeof(int));
             }
+            
             default:
                 throw new NotImplementedException();
         }

@@ -7,14 +7,13 @@ sealed class DuckDBQueryableSubQueryTranslatingExpressionVisitor : RelationalQue
 {
     public DuckDBQueryableSubQueryTranslatingExpressionVisitor(QueryableMethodTranslatingExpressionVisitorDependencies           dependencies,
                                                                RelationalQueryableMethodTranslatingExpressionVisitorDependencies relationalDependencies,
-                                                               QueryCompilationContext                                           queryCompilationContext)
-        : base(dependencies, relationalDependencies, queryCompilationContext)
+                                                               QueryCompilationContext                                           ctx)
+        : base(dependencies, relationalDependencies, ctx)
     {
     }
 
     public DuckDBQueryableSubQueryTranslatingExpressionVisitor(DuckDBQueryableMethodTranslatingExpressionVisitor parentVisitor) : base(parentVisitor)
     {
-        
     }
 
     // todo add subquery ordering

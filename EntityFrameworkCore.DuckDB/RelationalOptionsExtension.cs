@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EntityFrameworkCore.DuckDB.Provider;
 
-public sealed class DuckDBRelationalOptionsExtension : RelationalOptionsExtension
+sealed class DuckDBRelationalOptionsExtension : RelationalOptionsExtension
 {
     protected override RelationalOptionsExtension Clone() => new DuckDBRelationalOptionsExtension();
 

@@ -40,7 +40,10 @@ using (var db = new CTX("Data Source=" + fileName))
     // var sql3 = db.Test1s.Where(p => p.test_integer_nn < Math.Round(p.test_decimal_nn)).ToQueryString();
     // var sql4 = db.Test1s.Where(p => p.test_integer_nn < Math.Round(p.test_decimal_nn, 2)).ToQueryString();
     //    var sql4 = db.Test1s.Where(p => p.test_varchar_nn.StartsWith("x1")).ToQueryString();
-    var sql4 = db.Test1s.Where(p => p.test_varchar_nn.IndexOf("abc")>0).ToQueryString();
+    // var sql4 = db.Test1s.Where(p => p.test_blob_nn.Length>1).ToQueryString();
+    //var sql4 = db.Test1s.Where(p => p.test_timestamp_null < DateTime.Now).ToQueryString();
+    // var sql4 = db.Test1s.Where(p => p.test_integer_nn < p.test_timespan_nn.Seconds + 1).ToQueryString();
+    var sql5 = db.Test1s.Where(p => p.test_integer_nn < p.test_timestamp_nn.Day + 1).ToQueryString();
 
     var items = db.Test1s.Where(p => p.test_timestamp_nn < DateTime.UtcNow).ToArray();
 

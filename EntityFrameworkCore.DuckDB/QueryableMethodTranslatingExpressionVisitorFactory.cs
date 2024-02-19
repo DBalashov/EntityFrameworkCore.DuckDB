@@ -6,6 +6,6 @@ sealed class DuckDBQueryableMethodTranslatingExpressionVisitorFactory(QueryableM
                                                                       RelationalQueryableMethodTranslatingExpressionVisitorDependencies relationalDependencies)
     : IQueryableMethodTranslatingExpressionVisitorFactory
 {
-    public QueryableMethodTranslatingExpressionVisitor Create(QueryCompilationContext queryCompilationContext) =>
-        new DuckDBQueryableMethodTranslatingExpressionVisitor(dependencies, relationalDependencies, queryCompilationContext);
+    public QueryableMethodTranslatingExpressionVisitor Create(QueryCompilationContext ctx) =>
+        new DuckDBQueryableMethodTranslatingExpressionVisitor(dependencies, relationalDependencies, ctx);
 }

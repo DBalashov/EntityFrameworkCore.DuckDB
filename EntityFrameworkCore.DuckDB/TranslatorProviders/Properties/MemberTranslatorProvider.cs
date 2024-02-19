@@ -6,11 +6,12 @@ sealed class DuckDBMemberTranslatorProvider : RelationalMemberTranslatorProvider
 {
     public DuckDBMemberTranslatorProvider(RelationalMemberTranslatorProviderDependencies dependencies) : base(dependencies)
     {
-        var sqlExpressionFactory = (DuckDBSqlExpressionFactory)dependencies.SqlExpressionFactory;
         AddTranslators(new IMemberTranslator[]
                        {
-                           new DuckDBDateTimeMemberTranslator(sqlExpressionFactory),
-                           new DuckDBDateTimeOffsetMemberTranslator(sqlExpressionFactory),
+                           new DuckDBDateTimeMemberTranslator(dependencies.SqlExpressionFactory),
+                           new DuckDBDateTimeOffsetMemberTranslator(dependencies.SqlExpressionFactory),
+                           new DuckDBTimeSpanMemberTranslator(dependencies.SqlExpressionFactory),
+                           new DuckDBTimeOnlyMemberTranslator(dependencies.SqlExpressionFactory),
                        });
     }
 }

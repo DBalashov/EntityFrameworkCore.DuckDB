@@ -42,8 +42,8 @@ public static class UseExtension
                      .TryAdd<IQueryableMethodTranslatingExpressionVisitorFactory, DuckDBQueryableMethodTranslatingExpressionVisitorFactory>()
                      .TryAdd<IRelationalSqlTranslatingExpressionVisitorFactory, DuckDBSqlTranslatingExpressionVisitorFactory>()
                      .TryAdd<IQueryTranslationPostprocessorFactory, DuckDBQueryTranslationPostprocessorFactory>()
-                     .TryAdd<IUpdateSqlGenerator, DuckDBUpdateSqlGenerator>()
-                     .TryAdd<ISqlExpressionFactory, DuckDBSqlExpressionFactory>();
+                     .TryAdd<IUpdateSqlGenerator, DuckDBUpdateSqlGenerator>();
+                     //.TryAdd<ISqlExpressionFactory, DuckDBSqlExpressionFactory>();
 
         // .TryAdd<IMigrationsSqlGenerator, YdbMigrationsSqlGenerator>()
         // .TryAdd<IRelationalDatabaseCreator, YdbDatabaseCreator>()

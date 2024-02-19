@@ -6,8 +6,8 @@ namespace EntityFrameworkCore.DuckDB.Provider;
 
 sealed class DuckDBQueryTranslationPostprocessor(QueryTranslationPostprocessorDependencies           dependencies,
                                                  RelationalQueryTranslationPostprocessorDependencies relationalDependencies,
-                                                 QueryCompilationContext                             queryCompilationContext)
-    : RelationalQueryTranslationPostprocessor(dependencies, relationalDependencies, queryCompilationContext)
+                                                 QueryCompilationContext                             ctx)
+    : RelationalQueryTranslationPostprocessor(dependencies, relationalDependencies, ctx)
 {
     readonly ApplyValidatingVisitor applyValidator = new();
 

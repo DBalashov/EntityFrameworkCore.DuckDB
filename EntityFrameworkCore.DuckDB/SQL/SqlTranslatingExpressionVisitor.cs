@@ -5,74 +5,37 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 namespace EntityFrameworkCore.DuckDB.Provider;
 
 sealed class DuckDBSqlTranslatingExpressionVisitor(RelationalSqlTranslatingExpressionVisitorDependencies dependencies,
-                                                   QueryCompilationContext                               queryCompilationContext,
-                                                   QueryableMethodTranslatingExpressionVisitor           queryableMethodTranslatingExpressionVisitor)
-    : RelationalSqlTranslatingExpressionVisitor(dependencies, queryCompilationContext, queryableMethodTranslatingExpressionVisitor)
+                                                   QueryCompilationContext                               ctx,
+                                                   QueryableMethodTranslatingExpressionVisitor           visitor)
+    : RelationalSqlTranslatingExpressionVisitor(dependencies, ctx, visitor)
 {
-    protected override Expression VisitUnary(UnaryExpression unaryExpression)
+    protected override Expression VisitUnary(UnaryExpression unaryExpr)
     {
-        if (unaryExpression.NodeType == ExpressionType.ArrayLength && unaryExpression.Operand.Type == typeof(byte[]))
-            return Visit(unaryExpression.Operand) is SqlExpression sqlExpression
-                       ? Dependencies.SqlExpressionFactory.Function("length", // todo extract to byte[] translation method class
-                                                                    new[] {sqlExpression},
-                                                                    nullable: true,
-                                                                    argumentsPropagateNullability: new[] {true},
-                                                                    typeof(int))
-                       : QueryCompilationContext.NotTranslatedExpression;
+        switch (unaryExpr.NodeType)
+        {
+            case ExpressionType.ArrayLength when (unaryExpr.Operand.Type == typeof(byte[]) | unaryExpr.Operand.Type == typeof(MemoryStream)):
+            {
+                // https://duckdb.org/docs/sql/functions/blob
+                return Visit(unaryExpr.Operand) is SqlExpression sqlExpression
+                           ? Dependencies.SqlExpressionFactory.Function("octal_length", new[] {sqlExpression}, true, new[] {true}, typeof(int))
+                           : QueryCompilationContext.NotTranslatedExpression;
+            }
 
-        var visitedExpression = base.VisitUnary(unaryExpression);
-        if (visitedExpression == QueryCompilationContext.NotTranslatedExpression)
-            return QueryCompilationContext.NotTranslatedExpression;
+            case ExpressionType.Not when (unaryExpr.Operand.Type == typeof(decimal) ||
+                                          unaryExpr.Operand.Type == typeof(double)  ||
+                                          unaryExpr.Operand.Type == typeof(float)   ||
+                                          unaryExpr.Operand.Type == typeof(int)     ||
+                                          unaryExpr.Operand.Type == typeof(uint)    ||
+                                          unaryExpr.Operand.Type == typeof(byte)    ||
+                                          unaryExpr.Operand.Type == typeof(sbyte)):
+            {
+                return Visit(unaryExpr.Operand) is SqlExpression sqlExpression
+                           ? Dependencies.SqlExpressionFactory.Not(sqlExpression)
+                           : QueryCompilationContext.NotTranslatedExpression;
+            }
 
-        // if (visitedExpression is SqlUnaryExpression {OperatorType: ExpressionType.Negate} sqlUnary)
-        // {
-        //     var operandType = sqlUnary.Operand.GetProviderType();
-        //     if (operandType == typeof(decimal))
-        //         return Dependencies.SqlExpressionFactory.Function(name: "ef_negate", // sqlite stub, todo refactor
-        //                                                           new[] {sqlUnary.Operand},
-        //                                                           nullable: true,
-        //                                                           new[] {true},
-        //                                                           visitedExpression.Type);
-        //
-        //     if (operandType == typeof(TimeSpan))
-        //         return QueryCompilationContext.NotTranslatedExpression;
-        // }
-        // else
-        // {
-        // }
-
-        return visitedExpression;
+            default:
+                return base.VisitUnary(unaryExpr);
+        }
     }
-
-    // protected override Expression VisitBinary(BinaryExpression binaryExpression)
-    // {
-    //     if (!(base.VisitBinary(binaryExpression) is SqlExpression visitedExpression))
-    //         return QueryCompilationContext.NotTranslatedExpression;
-    //
-    //     if (visitedExpression is SqlBinaryExpression sqlBinary)
-    //     {
-    //         if (sqlBinary.OperatorType == ExpressionType.Modulo &&
-    //             (functionModuloTypes.Contains(sqlBinary.Left.GetProviderType()) || functionModuloTypes.Contains(sqlBinary.Right.GetProviderType())))
-    //         {
-    //             return Dependencies.SqlExpressionFactory.Function("ef_mod",
-    //                                                               new[] {sqlBinary.Left, sqlBinary.Right},
-    //                                                               nullable: true,
-    //                                                               argumentsPropagateNullability: new[] {true, true},
-    //                                                               visitedExpression.Type,
-    //                                                               visitedExpression.TypeMapping);
-    //         }
-    //
-    //         if (sqlBinary.AttemptDecimalCompare())
-    //             return visitedExpression.DoDecimalCompare(sqlBinary.OperatorType, sqlBinary.Left, sqlBinary.Right, Dependencies.SqlExpressionFactory);
-    //
-    //         if (sqlBinary.AttemptDecimalArithmetic())
-    //             return visitedExpression.doDecimalArithmetics(sqlBinary.OperatorType, sqlBinary.Left, sqlBinary.Right, Dependencies.SqlExpressionFactory);
-    //
-    //         if (restrictedBinaryExpressions.TryGetValue(sqlBinary.OperatorType, out var restrictedTypes) &&
-    //             (restrictedTypes.Contains(sqlBinary.Left.GetProviderType()) || restrictedTypes.Contains(sqlBinary.Right.GetProviderType())))
-    //             return QueryCompilationContext.NotTranslatedExpression;
-    //     }
-    //
-    //     return visitedExpression;
-    // }
 }

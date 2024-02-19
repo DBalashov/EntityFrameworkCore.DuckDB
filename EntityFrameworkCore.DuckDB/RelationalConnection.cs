@@ -1,12 +1,10 @@
 ﻿using System.Data.Common;
-using DuckDB.NET;
 using DuckDB.NET.Data;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EntityFrameworkCore.DuckDB.Provider;
 
-class DuckDBRelationalConnection : RelationalConnection
+sealed class DuckDBRelationalConnection : RelationalConnection
 {
     readonly string connectionString;
 

@@ -29,18 +29,6 @@
       <Compile Update="SQL\SqlTranslatingExpressionVisitorFactory.cs">
         <DependentUpon>SqlTranslatingExpressionVisitor.cs</DependentUpon>
       </Compile>
-      <Compile Update="TranslatorProviders\DateTimeMemberTranslator.cs">
-        <DependentUpon>MemberTranslatorProvider.cs</DependentUpon>
-      </Compile>
-      <Compile Update="TranslatorProviders\MathMethodsTranslator.cs">
-        <DependentUpon>MethodCallTranslatorProvider.cs</DependentUpon>
-      </Compile>
-      <Compile Update="TranslatorProviders\StringMethodsTranslator.cs">
-        <DependentUpon>MethodCallTranslatorProvider.cs</DependentUpon>
-      </Compile>
-      <Compile Update="TranslatorProviders\DateTimeOffsetMemberTranslator.cs">
-        <DependentUpon>MemberTranslatorProvider.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
 
 </Project>

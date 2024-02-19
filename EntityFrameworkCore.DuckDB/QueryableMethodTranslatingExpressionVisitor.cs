@@ -7,8 +7,8 @@ namespace EntityFrameworkCore.DuckDB.Provider;
 
 sealed class DuckDBQueryableMethodTranslatingExpressionVisitor(QueryableMethodTranslatingExpressionVisitorDependencies           dependencies,
                                                                RelationalQueryableMethodTranslatingExpressionVisitorDependencies relationalDependencies,
-                                                               QueryCompilationContext                                           queryCompilationContext)
-    : RelationalQueryableMethodTranslatingExpressionVisitor(dependencies, relationalDependencies, queryCompilationContext)
+                                                               QueryCompilationContext                                           ctx)
+    : RelationalQueryableMethodTranslatingExpressionVisitor(dependencies, relationalDependencies, ctx)
 {
     static readonly HashSet<Type> allowedOrderByTypes =
     [
@@ -29,7 +29,8 @@ sealed class DuckDBQueryableMethodTranslatingExpressionVisitor(QueryableMethodTr
         typeof(string)
     ];
 
-    protected override QueryableMethodTranslatingExpressionVisitor CreateSubqueryVisitor() => new DuckDBQueryableSubQueryTranslatingExpressionVisitor(this);
+    protected override QueryableMethodTranslatingExpressionVisitor CreateSubqueryVisitor() => 
+        new DuckDBQueryableSubQueryTranslatingExpressionVisitor(this);
 
     protected override ShapedQueryExpression? TranslateOrderBy(ShapedQueryExpression source, LambdaExpression keySelector, bool ascending)
     {

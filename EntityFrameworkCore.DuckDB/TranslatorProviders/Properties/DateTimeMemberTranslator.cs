@@ -10,16 +10,23 @@ sealed class DuckDBDateTimeMemberTranslator(ISqlExpressionFactory sqlExpressionF
 {
     public SqlExpression? Translate(SqlExpression? instance, MemberInfo member, Type returnType, IDiagnosticsLogger<DbLoggerCategory.Query> logger)
     {
-        if (member.DeclaringType != typeof(DateTime)) return null;
+        if (member.DeclaringType != typeof(DateTime))
+            return null;
+
+        if (instance == null)
+            throw new ArgumentNullException(nameof(instance));
+
+        if (sqlExpressionFactory.TryToDateTimePropertyMap(member, instance, out var expression))
+            return expression;
 
         switch (member.Name)
         {
-            case "UtcNow":
-                // example: date_add(cast(now() as timestamp), interval 2 hour)
+            case nameof(DateTime.UtcNow):
+                // example: date_add(cast(now() as timestamp), to_minutes(240))
                 var offset = (int) TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalMinutes;
                 if (offset == 0)
                 {
-                    return sqlExpressionFactory.Function("now", Array.Empty<SqlExpression>(), nullable: true, Array.Empty<bool>(), typeof(DateTime));
+                    return sqlExpressionFactory.Fragment("cast(now() as timestamp)");
                 }
                 else
                 {
@@ -27,14 +34,15 @@ sealed class DuckDBDateTimeMemberTranslator(ISqlExpressionFactory sqlExpressionF
                                                          new SqlExpression[]
                                                          {
                                                              new SqlFragmentExpression("cast(now() as timestamp)"),
-                                                             new SqlFragmentExpression($"{(offset < 0 ? "-" : "")}interval {offset} minute")
+                                                             new SqlFragmentExpression($"to_minutes({-offset})")
                                                          },
-                                                         nullable: true,
+                                                         true,
                                                          new[] {true},
                                                          typeof(DateTime));
                 }
-            case "Now":
-                return sqlExpressionFactory.Function("now", Array.Empty<SqlExpression>(), nullable: true, Array.Empty<bool>(), typeof(DateTime));
+
+            case nameof(DateTime.Now):
+                return sqlExpressionFactory.Fragment("cast(now() as timestamp)");
 
             default:
                 return null;
