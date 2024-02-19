@@ -1,0 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore.Query;
+
+namespace EntityFrameworkCore.DuckDB.Provider;
+
+sealed class DuckDBSqlTranslatingExpressionVisitorFactory(RelationalSqlTranslatingExpressionVisitorDependencies dependencies) : IRelationalSqlTranslatingExpressionVisitorFactory
+{
+    public RelationalSqlTranslatingExpressionVisitor Create(QueryCompilationContext queryCompilationContext, QueryableMethodTranslatingExpressionVisitor queryableMethodTranslatingExpressionVisitor) =>
+        new DuckDBSqlTranslatingExpressionVisitor(dependencies, queryCompilationContext, queryableMethodTranslatingExpressionVisitor);
+}
