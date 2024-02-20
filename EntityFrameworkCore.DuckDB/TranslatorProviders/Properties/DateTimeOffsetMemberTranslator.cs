@@ -13,9 +13,6 @@ sealed class DuckDBDateTimeOffsetMemberTranslator(ISqlExpressionFactory sqlExpre
         if (member.DeclaringType != typeof(DateTimeOffset))
             return null;
 
-        if (instance == null)
-            throw new ArgumentNullException(nameof(instance));
-
         if (sqlExpressionFactory.TryToDateTimePropertyMap(member, instance, out var expression))
             return expression;
 

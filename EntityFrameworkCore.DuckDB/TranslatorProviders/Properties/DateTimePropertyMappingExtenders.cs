@@ -22,7 +22,7 @@ static class DateTimePropertyMappingExtenders
                                                                      {nameof(DateTime.Microsecond), "microseconds"}
                                                                  };
 
-    public static bool TryToDateTimePropertyMap(this ISqlExpressionFactory sqlExpressionFactory, MemberInfo member, SqlExpression instance, out SqlExpression expression)
+    public static bool TryToDateTimePropertyMap(this ISqlExpressionFactory sqlExpressionFactory, MemberInfo member, SqlExpression? instance, out SqlExpression expression)
     {
         if (!propertyMapping.TryGetValue(member.Name, out var mappedPropertyName))
         {
@@ -31,11 +31,7 @@ static class DateTimePropertyMappingExtenders
         }
 
         expression = sqlExpressionFactory.Function("datepart",
-                                                   new[]
-                                                   {
-                                                       sqlExpressionFactory.Fragment($"'{mappedPropertyName}'"),
-                                                       instance,
-                                                   },
+                                                   new[] {sqlExpressionFactory.Fragment($"'{mappedPropertyName}'"), instance}!,
                                                    true,
                                                    new[] {true},
                                                    typeof(int));

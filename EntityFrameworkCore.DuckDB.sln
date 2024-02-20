@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.DuckDB"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp1", "TestApp1\TestApp1.csproj", "{D02DE761-364A-47E3-A48A-5CF4753ECBA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.DuckDB.Tests", "EntityFrameworkCore.DuckDB.Tests\EntityFrameworkCore.DuckDB.Tests.csproj", "{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D02DE761-364A-47E3-A48A-5CF4753ECBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02DE761-364A-47E3-A48A-5CF4753ECBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02DE761-364A-47E3-A48A-5CF4753ECBA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

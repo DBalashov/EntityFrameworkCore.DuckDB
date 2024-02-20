@@ -13,9 +13,6 @@ sealed class DuckDBDateTimeMemberTranslator(ISqlExpressionFactory sqlExpressionF
         if (member.DeclaringType != typeof(DateTime))
             return null;
 
-        if (instance == null)
-            throw new ArgumentNullException(nameof(instance));
-
         if (sqlExpressionFactory.TryToDateTimePropertyMap(member, instance, out var expression))
             return expression;
 
