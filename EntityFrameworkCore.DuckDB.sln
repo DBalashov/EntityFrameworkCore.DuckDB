@@ -6,6 +6,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp1", "TestApp1\TestAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.DuckDB.Tests", "EntityFrameworkCore.DuckDB.Tests\EntityFrameworkCore.DuckDB.Tests.csproj", "{9F179FBF-829C-43E1-B70F-B2BAEBCFAC90}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Docs", "_Docs", "{CFFE76E4-99A1-49DC-9A75-E8401C52DE45}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+		_Docs\mapped-types.md = _Docs\mapped-types.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

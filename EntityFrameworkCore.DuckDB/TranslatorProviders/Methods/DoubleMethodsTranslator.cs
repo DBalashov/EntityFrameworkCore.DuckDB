@@ -16,8 +16,8 @@ sealed class DuckDBDoubleMethodsTranslator(ISqlExpressionFactory sqlExpressionFa
 
         if (arguments.Count != 1)
             throw new ArgumentException("Only one argument allowed", nameof(arguments));
-        
-        var nullabilityMask = new[] {true, true};
+
+        var nullabilityMask = new[] {true};
         var retType         = arguments[0].Type;
 
         return method.Name switch

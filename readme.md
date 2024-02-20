@@ -1,0 +1,1 @@
+[Mapped types](_Docs/mapped-types.md)

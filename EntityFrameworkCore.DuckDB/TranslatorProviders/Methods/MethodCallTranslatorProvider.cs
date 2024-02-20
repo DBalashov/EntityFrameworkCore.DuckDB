@@ -13,5 +13,8 @@ sealed class DuckDBMethodCallTranslatorProvider : RelationalMethodCallTranslator
                            new DuckDBStringMethodsTranslator(dependencies.SqlExpressionFactory),
                            new DuckDBDateTimeMethodsTranslator(dependencies.SqlExpressionFactory),
                            new DuckDBDateTimeOffsetMethodsTranslator(dependencies.SqlExpressionFactory),
+                           new DuckDBTimeOnlyMethodsTranslator(dependencies.SqlExpressionFactory),
+                           // new DuckDBTimeSpanMethodsTranslator(dependencies.SqlExpressionFactory), temporary removed
+                           new DuckDBGuidMethodsTranslator(dependencies.SqlExpressionFactory)
                        });
 }

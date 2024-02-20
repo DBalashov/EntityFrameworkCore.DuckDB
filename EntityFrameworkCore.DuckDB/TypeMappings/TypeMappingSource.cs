@@ -18,8 +18,8 @@ sealed class DuckDBTypeMappingSource(TypeMappingSourceDependencies           dep
                                                                            [typeof(int)]  = new IntTypeMapping("integer"),
                                                                            [typeof(uint)] = new UIntTypeMapping("uinteger"),
 
-                                                                           [typeof(long)]  = new LongTypeMapping("bigint"),
-                                                                           [typeof(ulong)] = new ULongTypeMapping("ubigint"),
+                                                                           [typeof(Int64)]  = new LongTypeMapping("bigint"),
+                                                                           [typeof(UInt64)] = new ULongTypeMapping("ubigint"),
 
                                                                            [typeof(decimal)] = new DecimalTypeMapping("decimal"),
                                                                            [typeof(double)]  = new DoubleTypeMapping("double"),
